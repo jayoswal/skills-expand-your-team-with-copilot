@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Trigger confetti on page load
+  createConfetti();
+
   // DOM elements
   const activitiesList = document.getElementById("activities-list");
   const messageDiv = document.getElementById("message");
@@ -866,3 +869,54 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeFilters();
   fetchActivities();
 });
+
+// Confetti function - creates a welcoming confetti effect
+function createConfetti() {
+  const confettiContainer = document.createElement('div');
+  confettiContainer.id = 'confetti-container';
+  document.body.appendChild(confettiContainer);
+
+  const colors = ['#ff6f00', '#1a237e', '#2e7d32', '#7b1fa2', '#e65100', '#3949ab'];
+  const confettiCount = 50;
+
+  for (let i = 0; i < confettiCount; i++) {
+    setTimeout(() => {
+      createConfettiPiece(confettiContainer, colors);
+    }, i * 30);
+  }
+
+  // Remove confetti container after animation completes
+  setTimeout(() => {
+    confettiContainer.remove();
+  }, 5000);
+}
+
+function createConfettiPiece(container, colors) {
+  const confetti = document.createElement('div');
+  confetti.className = 'confetti';
+  
+  // Random color
+  confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+  
+  // Random starting position (top of screen, random horizontal position)
+  confetti.style.left = Math.random() * 100 + '%';
+  
+  // Random size
+  const size = Math.random() * 8 + 5;
+  confetti.style.width = size + 'px';
+  confetti.style.height = size + 'px';
+  
+  // Random animation duration
+  const duration = Math.random() * 2 + 2;
+  confetti.style.animationDuration = duration + 's';
+  
+  // Random rotation
+  confetti.style.setProperty('--rotation', Math.random() * 360 + 'deg');
+  
+  container.appendChild(confetti);
+  
+  // Remove confetti piece after animation
+  setTimeout(() => {
+    confetti.remove();
+  }, duration * 1000);
+}
